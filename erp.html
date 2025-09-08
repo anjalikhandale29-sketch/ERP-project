@@ -1,0 +1,2958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ERP System Single Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #667eea;
+      --secondary-color: #764ba2;
+      --accent-color: #f093fb;
+      --background-color: #f5f7fa;
+      --text-color: #333;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --neon-glow: 0 0 20px rgba(102, 126, 234, 0.5);
+    }
+
+    /* Particle Background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    /* Bubble Animation Effects */
+    .bubble-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.1));
+      border-radius: 50%;
+      animation: bubbleFloat 8s ease-in-out infinite;
+      box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .bubble:nth-child(1) {
+      width: 80px;
+      height: 80px;
+      left: 10%;
+      animation-delay: 0s;
+      animation-duration: 12s;
+    }
+
+    .bubble:nth-child(2) {
+      width: 120px;
+      height: 120px;
+      left: 20%;
+      animation-delay: 2s;
+      animation-duration: 15s;
+    }
+
+    .bubble:nth-child(3) {
+      width: 60px;
+      height: 60px;
+      left: 70%;
+      animation-delay: 4s;
+      animation-duration: 10s;
+    }
+
+    .bubble:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      left: 80%;
+      animation-delay: 6s;
+      animation-duration: 18s;
+    }
+
+    .bubble:nth-child(5) {
+      width: 90px;
+      height: 90px;
+      left: 50%;
+      animation-delay: 8s;
+      animation-duration: 14s;
+    }
+
+    .bubble:nth-child(6) {
+      width: 70px;
+      height: 70px;
+      left: 30%;
+      animation-delay: 10s;
+      animation-duration: 16s;
+    }
+
+    .bubble:nth-child(7) {
+      width: 110px;
+      height: 110px;
+      left: 60%;
+      animation-delay: 12s;
+      animation-duration: 13s;
+    }
+
+    .bubble:nth-child(8) {
+      width: 85px;
+      height: 85px;
+      left: 90%;
+      animation-delay: 14s;
+      animation-duration: 11s;
+    }
+
+    @keyframes bubbleFloat {
+      0% {
+        transform: translateY(100vh) scale(0.3) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+      }
+      50% {
+        transform: translateY(50vh) scale(1) rotate(180deg);
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) scale(0.3) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Interactive Bubble Effects */
+    .bubble-interactive {
+      position: absolute;
+      background: radial-gradient(circle at 30% 30%, var(--primary-color), var(--accent-color));
+      border-radius: 50%;
+      animation: bubblePulse 3s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .bubble-interactive:hover {
+      transform: scale(1.2);
+      box-shadow: 0 0 30px rgba(240, 147, 251, 0.8);
+    }
+
+    @keyframes bubblePulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(240, 147, 251, 0.8);
+      }
+    }
+
+    /* Bubble Button Effects */
+    .bubble-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .bubble-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.6s ease;
+    }
+
+    .bubble-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* Floating Bubbles for Cards */
+    .card-bubble {
+      position: absolute;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+      border-radius: 50%;
+      animation: cardBubbleFloat 6s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cardBubbleFloat {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: translateY(-10px) scale(1.1);
+        opacity: 0.6;
+      }
+    }
+
+    /* Profile Photo Animations */
+    @keyframes profilePulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+      }
+    }
+
+    @keyframes profileShine {
+      0%, 100% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes profileRotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+    body {
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: blur(8px) brightness(1.0);
+      z-index: -2;
+      animation: slowZoom 20s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+    }
+    /* Login Section */
+    #login-section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    #login-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 50px 35px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      border: 1px solid var(--glass-border);
+      position: relative;
+      animation: fadeIn 1s;
+      overflow: hidden;
+    }
+
+    #login-panel::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent, var(--primary-color), transparent, var(--accent-color), transparent);
+      animation: rotate 4s linear infinite;
+      z-index: -1;
+    }
+
+    #login-panel::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: loginBubble 4s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes loginBubble {
+      0%, 100% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+      }
+      50% {
+        width: 300px;
+        height: 300px;
+        opacity: 0.3;
+      }
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #login-panel h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      animation: titleGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes titleGlow {
+      0% { filter: drop-shadow(0 0 5px rgba(102, 126, 234, 0.5)); }
+      100% { filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.8)); }
+    }
+    .input-group {
+      margin: 20px 0;
+      position: relative;
+      perspective: 1000px;
+    }
+    .input-group input {
+      padding: 15px 20px;
+      width: 320px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 16px;
+      color: var(--text-color);
+      border: 1px solid var(--glass-border);
+    }
+    .input-group input:focus {
+      outline: none;
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      border-color: var(--primary-color);
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .input-group input::placeholder {
+      color: rgba(51, 51, 51, 0.7);
+    }
+    button {
+      padding: 15px 35px;
+      margin: 15px 0;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: 2px solid transparent;
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    button:hover::after {
+      opacity: 1;
+    }
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+    button:hover::before { left: 100%; }
+    button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    }
+    button:active { transform: translateY(-1px) scale(1.02); }
+    /* Dashboard Section */
+    #dashboard-section {
+      padding: 20px;
+      animation: fadeIn 0.5s ease;
+      position: relative;
+      min-height: 100vh;
+      z-index: 1;
+    }
+    #dashboard-section::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(3px) brightness(1.0);
+      z-index: -1;
+    }
+    nav {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 20px;
+      border-radius: 20px;
+      margin: 30px auto;
+      width: 85%;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      animation: slideDown 0.8s ease-out;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    nav button {
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      margin: 0;
+      opacity: 1;
+      min-width: 120px;
+      position: relative;
+    }
+    nav button.active {
+      background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+      transform: scale(1.1);
+      box-shadow: 0 15px 30px rgba(240, 147, 251, 0.4);
+    }
+    nav button:hover {
+      opacity: 1;
+      transform: translateY(-2px) scale(1.05);
+    }
+    #module-content {
+      margin-top: 30px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      animation: slideUp 0.6s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    #module-content::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: rotate(45deg);
+      animation: shimmer 3s infinite;
+    }
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    /* Table Styling */
+    table {
+      margin: 20px auto;
+      border-collapse: separate;
+      border-spacing: 0;
+      width: 95%;
+      background: rgba(255,255,255,0.9);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+    }
+    th {
+      background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+      color: white;
+      padding: 18px 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    th::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    th:hover::before { left: 100%; }
+    td {
+      padding: 15px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    tr { transition: all 0.3s ease; }
+    tr:hover { transform: scale(1.01); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+    tr:hover td { background: rgba(102,126,234,0.1); color: var(--secondary-color); font-weight: 500; }
+    /* List Styling */
+    ul { list-style: none; padding: 0; margin: 20px 0; }
+    li {
+      padding: 15px 20px;
+      margin: 15px 0;
+      background: rgba(255,255,255,0.8);
+      border-radius: 12px;
+      transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+      text-align: left;
+      border-left: 4px solid transparent;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    li::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+    li:hover {
+      transform: translateX(15px) scale(1.02);
+      background: rgba(255,255,255,0.95);
+      border-left-color: var(--accent-color);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    li:hover::before { opacity: 0.1; }
+    /* Module Header */
+    .module-header {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 2.5em;
+      margin-bottom: 30px;
+      font-weight: 700;
+      text-align: center;
+      animation: headerPulse 2s ease-in-out infinite alternate;
+    }
+    @keyframes headerPulse { 0% { transform: scale(1); } 100% { transform: scale(1.05); } }
+    /* Stat Cards */
+    .stat-card {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border-radius: 15px;
+      min-width: 150px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      margin: 10px;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: scale(0);
+      transition: transform 0.6s ease;
+    }
+
+    .stat-card:hover::after {
+      transform: scale(1);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .stat-card:hover::before {
+      left: 100%;
+    }
+
+    .stat-card .icon {
+      font-size: 2em;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .stat-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2) !important;
+      background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+    }
+    /* Registration Form */
+    form {
+      background: var(--glass-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    form::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
+      animation: progress 3s ease-in-out infinite;
+    }
+
+    @keyframes progress {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Interactive Form Fields */
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.9);
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      color: #666;
+      transition: all 0.3s ease;
+      pointer-events: none;
+      background: rgba(255,255,255,0.9);
+      padding: 0 5px;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:focus + label,
+    .form-group select:not([value=""]) + label {
+      top: -10px;
+      left: 10px;
+      font-size: 12px;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    form label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      font-size: 1em;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    form button {
+      width: 100%;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 600;
+      border-radius: 8px;
+      margin-top: 10px;
+      padding: 15px 0;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .input-group input { width: 90vw; }
+      table { font-size: 14px; }
+      #module-content { padding: 20px; }
+      nav { width: 100%; }
+      form { padding: 15px; }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <div class="particles" id="particles"></div>
+  <!-- Bubble Animation Background -->
+  <div class="bubble-container" id="bubbleContainer"></div>
+  <!-- Login Section -->
+  <div id="login-section">
+    <div id="login-panel">
+      <h2>Welcome to ERP System</h2>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Username">
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password">
+      </div>
+      <button onclick="login(event)">Login</button>
+    </div>
+  </div>
+  <!-- Dashboard Section -->
+  <div id="dashboard-section" style="display:none;">
+    <h2 class="module-header">Welcome to ERP Dashboard</h2>
+    <nav>
+      <button onclick="showModule(event, 'home')">Home</button>
+      <button onclick="showModule(event, 'employee')">Employee</button>
+      <button onclick="showModule(event, 'attendance')">Attendance</button>
+      <button onclick="showModule(event, 'inventory')">Inventory</button>
+      <button onclick="showModule(event, 'registration')">Registration</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+    <div id="module-content"><!-- Dynamic Module Content Here --></div>
+  </div>
+  <script>
+    function login(event) {
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      var loginBtn = event.target;
+      if(username === "admin" && password === "admin123") {
+        loginBtn.innerHTML = '<span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> Logging in...';
+        loginBtn.disabled = true;
+        setTimeout(() => {
+          document.getElementById('login-section').style.display = 'none';
+          document.getElementById('dashboard-section').style.display = 'block';
+          showModule(null, 'home');
+          showNotification('Welcome to ERP Dashboard!', 'success');
+          loginBtn.innerHTML = 'Login';
+          loginBtn.disabled = false;
+        }, 1200);
+      } else {
+        showNotification('Invalid credentials! Please try again.', 'error');
+        // Shake animation for invalid login
+        const loginPanel = document.getElementById('login-panel');
+        loginPanel.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => { loginPanel.style.animation = ''; }, 500);
+      }
+    }
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        background: ${type === 'success' ? 'linear-gradient(45deg, #4CAF50, #45a049)' : type === 'error' ? 'linear-gradient(45deg, #f44336, #d32f2f)' : 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))'};
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      setTimeout(() => { notification.style.transform = 'translateX(0)'; }, 100);
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => { document.body.removeChild(notification); }, 300);
+      }, 3000);
+    }
+    function showModule(event, module) {
+      var content = document.getElementById('module-content');
+      content.style.opacity = '0';
+      
+      if(event) {
+        document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+      }
+      
+      setTimeout(() => {
+        if(module === 'home') {
+          content.innerHTML = `
+            <h3 class="module-header">Welcome to ERP</h3>
+            <p>Manage your business operations efficiently with our comprehensive ERP system.</p>
+            <ul>
+              <li><b>Employee Module:</b> Add and view employee details, manage roles and departments.</li>
+              <li><b>Attendance Module:</b> Track attendance, manage leaves, and generate reports.</li>
+              <li><b>Inventory Module:</b> Monitor stock levels, track products, and manage suppliers.</li>
+            </ul>
+                         <div style="margin-top: 30px; padding: 30px; background: rgba(255,255,255,0.9); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); box-shadow: var(--shadow);">
+               <h4 style="text-align: center; margin-bottom: 25px; color: var(--secondary-color); font-size: 1.5em;">Quick Statistics</h4>
+               <div style="display: flex; justify-content: space-around; margin-top: 15px; flex-wrap: wrap; gap: 20px;">
+                 <div class="stat-card" onclick="showNotification('Employee Management Module', 'info'); animateCard(this)">
+                   <i class="fas fa-users icon"></i>
+                   <div style="font-size: 2.5em; font-weight: bold; margin-bottom: 10px;">15</div>
+                   <div style="font-size: 1.1em;">Total Employees</div>
+                 </div>
+                 <div class="stat-card" style="background: linear-gradient(45deg, var(--secondary-color), var(--accent-color));" onclick="showNotification('Attendance Module', 'info'); animateCard(this)">
+                   <i class="fas fa-clock icon"></i>
+                   <div style="font-size: 2.5em; font-weight: bold; margin-bottom: 10px;">12</div>
+                   <div style="font-size: 1.1em;">Present Today</div>
+                 </div>
+                 <div class="stat-card" style="background: linear-gradient(45deg, #ff9800, #ff5722);" onclick="showNotification('Inventory Module', 'info'); animateCard(this)">
+                   <i class="fas fa-boxes icon"></i>
+                   <div style="font-size: 2.5em; font-weight: bold; margin-bottom: 10px;">45</div>
+                   <div style="font-size: 1.1em;">Products in Stock</div>
+                 </div>
+               </div>
+             </div>`;
+        } else if(module === 'employee') {
+          content.innerHTML = `
+            <h3 class="module-header">Employee Management</h3>
+            <p>Current Employee Directory:</p>
+            <table>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Action</th>
+              </tr>
+              <tr>
+                <td>101</td>
+                <td>Rahul Sharma</td>
+                <td>HR</td>
+                <td>Manager</td>
+                <td><button onclick="showEmployeeProfile(101)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>102</td>
+                <td>Anjali Patil</td>
+                <td>IT</td>
+                <td>Senior Developer</td>
+                <td><button onclick="showEmployeeProfile(102)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>103</td>
+                <td>Raj Verma</td>
+                <td>Finance</td>
+                <td>Accountant</td>
+                <td><button onclick="showEmployeeProfile(103)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>104</td>
+                <td>Priya Singh</td>
+                <td>Marketing</td>
+                <td>Marketing Manager</td>
+                <td><button onclick="showEmployeeProfile(104)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>105</td>
+                <td>Amit Kumar</td>
+                <td>IT</td>
+                <td>Developer</td>
+                <td><button onclick="showEmployeeProfile(105)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>106</td>
+                <td>Neha Gupta</td>
+                <td>Sales</td>
+                <td>Sales Executive</td>
+                <td><button onclick="showEmployeeProfile(106)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>107</td>
+                <td>Vikram Malhotra</td>
+                <td>Operations</td>
+                <td>Operations Head</td>
+                <td><button onclick="showEmployeeProfile(107)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>108</td>
+                <td>Sunita Reddy</td>
+                <td>Finance</td>
+                <td>Financial Analyst</td>
+                <td><button onclick="showEmployeeProfile(108)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>109</td>
+                <td>Arjun Mehta</td>
+                <td>IT</td>
+                <td>System Admin</td>
+                <td><button onclick="showEmployeeProfile(109)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>110</td>
+                <td>Kavya Iyer</td>
+                <td>HR</td>
+                <td>HR Executive</td>
+                <td><button onclick="showEmployeeProfile(110)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>111</td>
+                <td>Rohan Desai</td>
+                <td>Sales</td>
+                <td>Sales Manager</td>
+                <td><button onclick="showEmployeeProfile(111)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>112</td>
+                <td>Meera Joshi</td>
+                <td>Marketing</td>
+                <td>Content Writer</td>
+                <td><button onclick="showEmployeeProfile(112)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>113</td>
+                <td>Aditya Rao</td>
+                <td>IT</td>
+                <td>QA Engineer</td>
+                <td><button onclick="showEmployeeProfile(113)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>114</td>
+                <td>Pooja Sharma</td>
+                <td>Finance</td>
+                <td>Accounts Payable</td>
+                <td><button onclick="showEmployeeProfile(114)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+              <tr>
+                <td>115</td>
+                <td>Karan Patel</td>
+                <td>Operations</td>
+                <td>Logistics Coordinator</td>
+                <td><button onclick="showEmployeeProfile(115)" style="background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); padding: 8px 15px; font-size: 12px; margin: 0;"><i class="fas fa-info-circle"></i> Info</button></td>
+              </tr>
+            </table>`;
+        } else if(module === 'attendance') {
+          content.innerHTML = `
+            <h3 class="module-header">Attendance Tracker</h3>
+            <p>Today's Attendance Report (${new Date().toLocaleDateString()}):</p>
+            <table>
+              <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Check-in Time</th>
+                <th>Check-out Time</th>
+                <th>Working Hours</th>
+              </tr>
+              <tr>
+                <td>101</td>
+                <td>Rahul Sharma</td>
+                <td>HR</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:15 AM</td>
+                <td>06:30 PM</td>
+                <td>8h 15m</td>
+              </tr>
+              <tr>
+                <td>102</td>
+                <td>Anjali Patil</td>
+                <td>IT</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:00 AM</td>
+                <td>06:45 PM</td>
+                <td>8h 45m</td>
+              </tr>
+              <tr>
+                <td>103</td>
+                <td>Raj Verma</td>
+                <td>Finance</td>
+                <td style="color: red; font-weight: bold;">Absent</td>
+                <td>-</td>
+                <td>-</td>
+                <td>0h 0m</td>
+              </tr>
+              <tr>
+                <td>104</td>
+                <td>Priya Singh</td>
+                <td>Marketing</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:30 AM</td>
+                <td>06:00 PM</td>
+                <td>7h 30m</td>
+              </tr>
+              <tr>
+                <td>105</td>
+                <td>Amit Kumar</td>
+                <td>IT</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>08:45 AM</td>
+                <td>07:15 PM</td>
+                <td>9h 30m</td>
+              </tr>
+              <tr>
+                <td>106</td>
+                <td>Neha Gupta</td>
+                <td>Sales</td>
+                <td style="color: orange; font-weight: bold;">Late</td>
+                <td>10:15 AM</td>
+                <td>06:30 PM</td>
+                <td>7h 15m</td>
+              </tr>
+              <tr>
+                <td>107</td>
+                <td>Vikram Malhotra</td>
+                <td>Operations</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:00 AM</td>
+                <td>06:00 PM</td>
+                <td>8h 0m</td>
+              </tr>
+              <tr>
+                <td>108</td>
+                <td>Sunita Reddy</td>
+                <td>Finance</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:20 AM</td>
+                <td>06:20 PM</td>
+                <td>8h 0m</td>
+              </tr>
+              <tr>
+                <td>109</td>
+                <td>Arjun Mehta</td>
+                <td>IT</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>08:30 AM</td>
+                <td>07:00 PM</td>
+                <td>9h 30m</td>
+              </tr>
+              <tr>
+                <td>110</td>
+                <td>Kavya Iyer</td>
+                <td>HR</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:10 AM</td>
+                <td>06:15 PM</td>
+                <td>8h 5m</td>
+              </tr>
+              <tr>
+                <td>111</td>
+                <td>Rohan Desai</td>
+                <td>Sales</td>
+                <td style="color: blue; font-weight: bold;">On Leave</td>
+                <td>-</td>
+                <td>-</td>
+                <td>0h 0m</td>
+              </tr>
+              <tr>
+                <td>112</td>
+                <td>Meera Joshi</td>
+                <td>Marketing</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:25 AM</td>
+                <td>06:25 PM</td>
+                <td>8h 0m</td>
+              </tr>
+              <tr>
+                <td>113</td>
+                <td>Aditya Rao</td>
+                <td>IT</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:05 AM</td>
+                <td>06:35 PM</td>
+                <td>8h 30m</td>
+              </tr>
+              <tr>
+                <td>114</td>
+                <td>Pooja Sharma</td>
+                <td>Finance</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>09:00 AM</td>
+                <td>06:00 PM</td>
+                <td>8h 0m</td>
+              </tr>
+              <tr>
+                <td>115</td>
+                <td>Karan Patel</td>
+                <td>Operations</td>
+                <td style="color: green; font-weight: bold;">Present</td>
+                <td>08:45 AM</td>
+                <td>06:45 PM</td>
+                <td>9h 0m</td>
+              </tr>
+            </table>
+            <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); box-shadow: var(--shadow);">
+              <h4 style="text-align: center; margin-bottom: 20px; color: var(--secondary-color); font-size: 1.3em;">Attendance Summary</h4>
+              <div style="display: flex; justify-content: space-around; margin-top: 10px; flex-wrap: wrap; gap: 20px;">
+                <div class="stat-card" style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+                  <div style="font-size: 1.5em; color: green; font-weight: bold;">12</div>
+                  <div>Present</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #f44336, #d32f2f);">
+                  <div style="font-size: 1.5em; color: red; font-weight: bold;">1</div>
+                  <div>Absent</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #ff9800, #ff5722);">
+                  <div style="font-size: 1.5em; color: orange; font-weight: bold;">1</div>
+                  <div>Late</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #2196F3, #1976D2);">
+                  <div style="font-size: 1.5em; color: blue; font-weight: bold;">1</div>
+                  <div>On Leave</div>
+                </div>
+              </div>
+            </div>`;
+        } else if(module === 'inventory') {
+          content.innerHTML = `
+            <h3 class="module-header">Inventory Management</h3>
+            <p>Current Stock Status:</p>
+            <table>
+              <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Value</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>501</td>
+                <td>Dell Latitude Laptop</td>
+                <td>Electronics</td>
+                <td>15</td>
+                <td>₹50,000</td>
+                <td>₹7,50,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>502</td>
+                <td>HP LaserJet Printer</td>
+                <td>Electronics</td>
+                <td>8</td>
+                <td>₹7,000</td>
+                <td>₹56,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>503</td>
+                <td>Ergonomic Office Chair</td>
+                <td>Furniture</td>
+                <td>20</td>
+                <td>₹3,000</td>
+                <td>₹60,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>504</td>
+                <td>Wireless Mouse</td>
+                <td>Electronics</td>
+                <td>50</td>
+                <td>₹500</td>
+                <td>₹25,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>505</td>
+                <td>Mechanical Keyboard</td>
+                <td>Electronics</td>
+                <td>25</td>
+                <td>₹2,500</td>
+                <td>₹62,500</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>506</td>
+                <td>Office Desk</td>
+                <td>Furniture</td>
+                <td>12</td>
+                <td>₹5,000</td>
+                <td>₹60,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>507</td>
+                <td>External Hard Drive 1TB</td>
+                <td>Electronics</td>
+                <td>30</td>
+                <td>₹3,500</td>
+                <td>₹1,05,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>508</td>
+                <td>Network Switch 24-Port</td>
+                <td>Electronics</td>
+                <td>5</td>
+                <td>₹15,000</td>
+                <td>₹75,000</td>
+                <td style="color: orange;">Low Stock</td>
+              </tr>
+              <tr>
+                <td>509</td>
+                <td>Projector Screen</td>
+                <td>Electronics</td>
+                <td>8</td>
+                <td>₹8,000</td>
+                <td>₹64,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>510</td>
+                <td>Whiteboard 4x6 ft</td>
+                <td>Office Supplies</td>
+                <td>10</td>
+                <td>₹2,000</td>
+                <td>₹20,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>511</td>
+                <td>Paper Shredder</td>
+                <td>Office Supplies</td>
+                <td>6</td>
+                <td>₹4,500</td>
+                <td>₹27,000</td>
+                <td style="color: orange;">Low Stock</td>
+              </tr>
+              <tr>
+                <td>512</td>
+                <td>Air Purifier</td>
+                <td>Electronics</td>
+                <td>4</td>
+                <td>₹12,000</td>
+                <td>₹48,000</td>
+                <td style="color: orange;">Low Stock</td>
+              </tr>
+              <tr>
+                <td>513</td>
+                <td>Standing Desk</td>
+                <td>Furniture</td>
+                <td>7</td>
+                <td>₹18,000</td>
+                <td>₹1,26,000</td>
+                <td style="color: orange;">Low Stock</td>
+              </tr>
+              <tr>
+                <td>514</td>
+                <td>USB-C Hub</td>
+                <td>Electronics</td>
+                <td>35</td>
+                <td>₹1,200</td>
+                <td>₹42,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+              <tr>
+                <td>515</td>
+                <td>Desk Lamp LED</td>
+                <td>Office Supplies</td>
+                <td>25</td>
+                <td>₹800</td>
+                <td>₹20,000</td>
+                <td style="color: green;">In Stock</td>
+              </tr>
+            </table>
+            <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.9); border-radius: 15px; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); box-shadow: var(--shadow);">
+              <h4 style="text-align: center; margin-bottom: 20px; color: var(--secondary-color); font-size: 1.3em;">Inventory Summary</h4>
+              <div style="display: flex; justify-content: space-around; margin-top: 10px; flex-wrap: wrap; gap: 20px;">
+                <div class="stat-card" style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+                  <div style="font-size: 1.5em; color: green; font-weight: bold;">11</div>
+                  <div>In Stock</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #ff9800, #ff5722);">
+                  <div style="font-size: 1.5em; color: orange; font-weight: bold;">3</div>
+                  <div>Low Stock</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #2196F3, #1976D2);">
+                  <div style="font-size: 1.5em; color: var(--secondary-color); font-weight: bold;">₹15,70,500</div>
+                  <div>Total Value</div>
+                </div>
+                <div class="stat-card" style="background: linear-gradient(45deg, #4CAF50, #45a049);">
+                  <div style="font-size: 1.5em; color: var(--primary-color); font-weight: bold;">260</div>
+                  <div>Total Items</div>
+                </div>
+              </div>
+            </div>`;
+                 } else if(module === 'registration') {
+           content.innerHTML = `
+             <form id="registrationForm" action="nidhi1.php" method="POST" onsubmit="return validateRegistrationForm();">
+               <h2 style="text-align: center; margin-bottom: 30px; background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2em;">Registration Form</h2>
+               <div class="form-group">
+                 <input type="text" name="first_name" id="first_name" placeholder=" ">
+                 <label for="first_name">First Name</label>
+               </div>
+               <div class="form-group">
+                 <input type="text" name="last_name" id="last_name" placeholder=" ">
+                 <label for="last_name">Last Name</label>
+               </div>
+               <div class="form-group">
+                 <input type="date" name="dob" id="dob" placeholder=" ">
+                 <label for="dob">Date of Birth</label>
+               </div>
+               <div class="form-group">
+                 <input type="email" name="email" id="email" placeholder=" ">
+                 <label for="email">Email Id</label>
+               </div>
+               <div class="form-group">
+                 <input type="text" name="mobile" id="mobile" placeholder=" ">
+                 <label for="mobile">Mobile No.</label>
+               </div>
+               <div class="form-group">
+                 <label style="position: static; margin-bottom: 10px;">Gender:</label>
+                 <div class="gender-buttons" style="display: flex; gap: 15px; margin-top: 10px;">
+                   <button type="button" class="gender-btn" id="male-btn" onclick="selectGender('Male')" style="
+                     padding: 12px 25px;
+                     border: 2px solid #ccc;
+                     border-radius: 25px;
+                     background: rgba(255,255,255,0.9);
+                     cursor: pointer;
+                     transition: all 0.3s ease;
+                     font-size: 16px;
+                     color: #666;
+                     position: relative;
+                     overflow: hidden;
+                   ">
+                     <i class="fas fa-mars" style="margin-right: 8px;"></i>Male
+                   </button>
+                   <button type="button" class="gender-btn" id="female-btn" onclick="selectGender('Female')" style="
+                     padding: 12px 25px;
+                     border: 2px solid #ccc;
+                     border-radius: 25px;
+                     background: rgba(255,255,255,0.9);
+                     cursor: pointer;
+                     transition: all 0.3s ease;
+                     font-size: 16px;
+                     color: #666;
+                     position: relative;
+                     overflow: hidden;
+                   ">
+                     <i class="fas fa-venus" style="margin-right: 8px;"></i>Female
+                   </button>
+                   <input type="hidden" name="gender" id="gender-input" value="">
+                 </div>
+               </div>
+               <div class="form-group">
+                 <select name="country" id="country" onchange="populateStates()">
+                   <option value="">Select Country</option>
+                   <option value="India">India</option>
+                   <option value="USA">USA</option>
+                 </select>
+                 <label for="country">Country</label>
+               </div>
+               <div class="form-group">
+                 <select name="state" id="state" onchange="populateDistricts()">
+                   <option value="">Please select country first</option>
+                 </select>
+                 <label for="state">State</label>
+               </div>
+               <div class="form-group">
+                 <select name="district" id="district">
+                   <option value="">Please select state first</option>
+                 </select>
+                 <label for="district">District</label>
+               </div>
+               <div class="form-group">
+                 <input type="text" name="address" id="address" placeholder=" ">
+                 <label for="address">Address</label>
+               </div>
+               <div class="form-group">
+                 <input type="text" name="pincode" id="pincode" placeholder=" ">
+                 <label for="pincode">Pin Code</label>
+               </div>
+               <div class="form-group">
+                 <input type="text" name="city" id="city" placeholder=" ">
+                 <label for="city">City</label>
+               </div>
+               <div class="form-group">
+                 <textarea name="hobbies" id="hobbies" placeholder=" " rows="3"></textarea>
+                 <label for="hobbies">Hobbies</label>
+               </div>
+               <button type="submit" style="width: 100%; margin-top: 20px;">
+                 <i class="fas fa-paper-plane" style="margin-right: 10px;"></i>Submit Registration
+               </button>
+               <div id="errorMsg"></div>
+             </form>`;
+        }
+        content.style.opacity = '1';
+        
+        // Add table interactions after content is loaded
+        setTimeout(() => {
+          addTableInteractions();
+          addBubbleEffects();
+          addCardBubbles();
+        }, 100);
+      }, 300);
+    }
+    function logout() {
+      document.getElementById('dashboard-section').style.display = 'none';
+      document.getElementById('login-section').style.display = 'flex';
+      document.getElementById('username').value = "";
+      document.getElementById('password').value = "";
+      showNotification('Logged out successfully!', 'success');
+    }
+
+    // Particle Animation
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        const size = Math.random() * 4 + 2;
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        const delay = Math.random() * 6;
+        
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.animationDelay = delay + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Bubble Animation
+    function createBubbles() {
+      const bubbleContainer = document.getElementById('bubbleContainer');
+      const bubbleCount = 8;
+
+      for (let i = 1; i <= bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubbleContainer.appendChild(bubble);
+      }
+    }
+
+    // Create interactive bubbles for buttons
+    function addBubbleEffects() {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.classList.add('bubble-btn');
+        
+        // Add floating bubbles around buttons
+        const bubble1 = document.createElement('div');
+        bubble1.className = 'card-bubble';
+        bubble1.style.width = '20px';
+        bubble1.style.height = '20px';
+        bubble1.style.top = '-10px';
+        bubble1.style.left = '10px';
+        bubble1.style.animationDelay = '0s';
+        
+        const bubble2 = document.createElement('div');
+        bubble2.className = 'card-bubble';
+        bubble2.style.width = '15px';
+        bubble2.style.height = '15px';
+        bubble2.style.top = '50%';
+        bubble2.style.right = '-5px';
+        bubble2.style.animationDelay = '2s';
+        
+        button.style.position = 'relative';
+        button.appendChild(bubble1);
+        button.appendChild(bubble2);
+      });
+    }
+
+    // Create floating bubbles for cards
+    function addCardBubbles() {
+      const cards = document.querySelectorAll('.stat-card, #login-panel, #module-content');
+      cards.forEach(card => {
+        card.style.position = 'relative';
+        
+        // Add multiple floating bubbles
+        for (let i = 0; i < 3; i++) {
+          const bubble = document.createElement('div');
+          bubble.className = 'card-bubble';
+          bubble.style.width = (15 + i * 5) + 'px';
+          bubble.style.height = (15 + i * 5) + 'px';
+          bubble.style.top = (10 + i * 20) + 'px';
+          bubble.style.left = (10 + i * 15) + 'px';
+          bubble.style.animationDelay = (i * 1) + 's';
+          
+          card.appendChild(bubble);
+        }
+      });
+    }
+
+    // Create click bubble effect
+    function createClickBubble(event) {
+      const bubble = document.createElement('div');
+      bubble.style.position = 'fixed';
+      bubble.style.left = (event.clientX - 25) + 'px';
+      bubble.style.top = (event.clientY - 25) + 'px';
+      bubble.style.width = '50px';
+      bubble.style.height = '50px';
+      bubble.style.background = 'radial-gradient(circle, var(--accent-color), var(--primary-color))';
+      bubble.style.borderRadius = '50%';
+      bubble.style.pointerEvents = 'none';
+      bubble.style.zIndex = '1000';
+      bubble.style.animation = 'bubblePulse 0.6s ease-out forwards';
+      
+      document.body.appendChild(bubble);
+      
+      setTimeout(() => {
+        bubble.remove();
+      }, 600);
+    }
+
+    // Card Animation
+    function animateCard(card) {
+      card.style.transform = 'scale(0.95) rotate(2deg)';
+      card.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+      
+      setTimeout(() => {
+        card.style.transform = 'translateY(-10px) scale(1.05)';
+        card.style.boxShadow = '0 25px 50px rgba(0,0,0,0.4)';
+        
+        setTimeout(() => {
+          card.style.transform = '';
+          card.style.boxShadow = '';
+        }, 300);
+      }, 150);
+    }
+
+    // Enhanced Table Interactions
+    function addTableInteractions() {
+      const tables = document.querySelectorAll('table');
+      tables.forEach(table => {
+        const rows = table.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+          if (index > 0) { // Skip header row
+            row.addEventListener('mouseenter', () => {
+              row.style.transform = 'scale(1.02)';
+              row.style.boxShadow = '0 8px 25px rgba(0,0,0,0.15)';
+            });
+            
+            row.addEventListener('mouseleave', () => {
+              row.style.transform = '';
+              row.style.boxShadow = '';
+            });
+          }
+        });
+      });
+    }
+
+    // Initialize everything when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      createParticles();
+      createBubbles();
+      
+      // Add typing effect to login title
+      const loginTitle = document.querySelector('#login-panel h2');
+      if (loginTitle) {
+        const text = loginTitle.textContent;
+        loginTitle.textContent = '';
+        let i = 0;
+        const typeWriter = () => {
+          if (i < text.length) {
+            loginTitle.textContent += text.charAt(i);
+            i++;
+            setTimeout(typeWriter, 100);
+          }
+        };
+        typeWriter();
+      }
+
+      // Add bubble effects after a short delay
+      setTimeout(() => {
+        addBubbleEffects();
+        addCardBubbles();
+      }, 500);
+
+      // Add click bubble effects to the document
+      document.addEventListener('click', createClickBubble);
+    });
+
+    // Dynamic dropdown functionality
+    function populateStates() {
+      const countrySelect = document.getElementById('country');
+      const stateSelect = document.getElementById('state');
+      const districtSelect = document.getElementById('district');
+      
+      // Clear existing options
+      stateSelect.innerHTML = '<option value="">Select State</option>';
+      districtSelect.innerHTML = '<option value="">Please select state first</option>';
+      
+      const selectedCountry = countrySelect.value;
+      
+      if (selectedCountry === 'India') {
+        const indianStates = [
+          'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+          'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
+          'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
+          'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
+          'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura',
+          'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+        ];
+        
+        indianStates.forEach(state => {
+          const option = document.createElement('option');
+          option.value = state;
+          option.textContent = state;
+          stateSelect.appendChild(option);
+        });
+        
+        showNotification('States loaded for India', 'success');
+      } else if (selectedCountry === 'USA') {
+        const usStates = [
+          'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+          'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia',
+          'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+          'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+          'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri',
+          'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+          'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio',
+          'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
+          'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+          'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+        ];
+        
+        usStates.forEach(state => {
+          const option = document.createElement('option');
+          option.value = state;
+          option.textContent = state;
+          stateSelect.appendChild(option);
+        });
+        
+        showNotification('States loaded for USA', 'success');
+      }
+    }
+
+    function populateDistricts() {
+      const stateSelect = document.getElementById('state');
+      const districtSelect = document.getElementById('district');
+      
+      // Clear existing options
+      districtSelect.innerHTML = '<option value="">Select District</option>';
+      
+      const selectedState = stateSelect.value;
+      
+      if (selectedState) {
+        // Sample districts for some states (you can expand this)
+        const districts = {
+          'Maharashtra': ['Mumbai', 'Pune', 'Nagpur', 'Thane', 'Nashik', 'Aurangabad', 'Solapur', 'Kolhapur'],
+          'Karnataka': ['Bangalore', 'Mysore', 'Mangalore', 'Hubli', 'Belgaum', 'Gulbarga', 'Bellary', 'Tumkur'],
+          'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Salem', 'Tiruchirappalli', 'Vellore', 'Erode', 'Thanjavur'],
+          'Gujarat': ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot', 'Bhavnagar', 'Jamnagar', 'Anand', 'Bharuch'],
+          'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Agra', 'Varanasi', 'Allahabad', 'Ghaziabad', 'Noida', 'Meerut'],
+          'West Bengal': ['Kolkata', 'Howrah', 'North 24 Parganas', 'South 24 Parganas', 'Burdwan', 'Birbhum', 'Murshidabad', 'Nadia'],
+          'California': ['Los Angeles', 'San Francisco', 'San Diego', 'Sacramento', 'Oakland', 'Fresno', 'Long Beach', 'Bakersfield'],
+          'New York': ['New York City', 'Buffalo', 'Rochester', 'Yonkers', 'Syracuse', 'Albany', 'New Rochelle', 'Mount Vernon'],
+          'Texas': ['Houston', 'San Antonio', 'Dallas', 'Austin', 'Fort Worth', 'El Paso', 'Arlington', 'Corpus Christi'],
+          'Florida': ['Miami', 'Orlando', 'Tampa', 'Jacksonville', 'Fort Lauderdale', 'Tallahassee', 'Gainesville', 'Pensacola']
+        };
+        
+        if (districts[selectedState]) {
+          districts[selectedState].forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+          });
+          showNotification(`Districts loaded for ${selectedState}`, 'success');
+        } else {
+          // For states not in our sample, add some generic districts
+          const genericDistricts = ['Central District', 'North District', 'South District', 'East District', 'West District'];
+          genericDistricts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+          });
+          showNotification(`Generic districts loaded for ${selectedState}`, 'info');
+        }
+      }
+    }
+
+    function selectGender(gender) {
+      // Remove active styling from all gender buttons
+      const maleBtn = document.getElementById('male-btn');
+      const femaleBtn = document.getElementById('female-btn');
+      const genderInput = document.getElementById('gender-input');
+      
+      // Reset both buttons to default state
+      maleBtn.style.background = 'rgba(255,255,255,0.9)';
+      maleBtn.style.color = '#666';
+      maleBtn.style.border = '2px solid #ccc';
+      
+      femaleBtn.style.background = 'rgba(255,255,255,0.9)';
+      femaleBtn.style.color = '#666';
+      femaleBtn.style.border = '2px solid #ccc';
+      
+      // Add active styling to selected button
+      if (gender === 'Male') {
+        maleBtn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))';
+        maleBtn.style.color = 'white';
+        maleBtn.style.border = '2px solid var(--primary-color)';
+        genderInput.value = 'Male';
+      } else if (gender === 'Female') {
+        femaleBtn.style.background = 'linear-gradient(45deg, var(--primary-color), var(--secondary-color))';
+        femaleBtn.style.color = 'white';
+        femaleBtn.style.border = '2px solid var(--primary-color)';
+        genderInput.value = 'Female';
+      }
+      
+      showNotification(`Gender selected: ${gender}`, 'success');
+    }
+
+    function validateRegistrationForm() {
+      const form = document.getElementById('registrationForm');
+      const errorMsg = document.getElementById('errorMsg');
+      
+      // Get form values
+      const firstName = document.getElementById('first_name').value.trim();
+      const lastName = document.getElementById('last_name').value.trim();
+      const dob = document.getElementById('dob').value;
+      const email = document.getElementById('email').value.trim();
+      const mobile = document.getElementById('mobile').value.trim();
+      const gender = document.getElementById('gender-input').value;
+      const country = document.getElementById('country').value;
+      const state = document.getElementById('state').value;
+      const district = document.getElementById('district').value;
+      const address = document.getElementById('address').value.trim();
+      const pincode = document.getElementById('pincode').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const hobbies = document.getElementById('hobbies').value.trim();
+      
+      // Validation
+      let errors = [];
+      
+      if (!firstName) errors.push('First Name is required');
+      if (!lastName) errors.push('Last Name is required');
+      if (!dob) errors.push('Date of Birth is required');
+      if (!email) errors.push('Email is required');
+      if (!mobile) errors.push('Mobile Number is required');
+      if (!gender || gender === '') errors.push('Please select Gender');
+      if (!country) errors.push('Please select Country');
+      if (!state) errors.push('Please select State');
+      if (!district) errors.push('Please select District');
+      if (!address) errors.push('Address is required');
+      if (!pincode) errors.push('Pin Code is required');
+      if (!city) errors.push('City is required');
+      if (!hobbies) errors.push('Hobbies are required');
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (email && !emailRegex.test(email)) {
+        errors.push('Please enter a valid email address');
+      }
+      
+      // Mobile validation (10 digits)
+      const mobileRegex = /^\d{10}$/;
+      if (mobile && !mobileRegex.test(mobile)) {
+        errors.push('Please enter a valid 10-digit mobile number');
+      }
+      
+      // Pincode validation (6 digits)
+      const pincodeRegex = /^\d{6}$/;
+      if (pincode && !pincodeRegex.test(pincode)) {
+        errors.push('Please enter a valid 6-digit pin code');
+      }
+      
+      if (errors.length > 0) {
+        errorMsg.innerHTML = '<div style="color: red; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 4px solid red;">' + 
+                           '<strong>Please fix the following errors:</strong><br>' + 
+                           errors.join('<br>') + '</div>';
+        showNotification('Please fix the form errors', 'error');
+        return false;
+      } else {
+        errorMsg.innerHTML = '<div style="color: green; background: rgba(0,255,0,0.1); padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 4px solid green;">' + 
+                           '<strong>Form is valid! Submitting...</strong></div>';
+        showNotification('Form submitted successfully!', 'success');
+        return true;
+      }
+    }
+
+    // Employee Profile Modal Function
+    function showEmployeeProfile(employeeId) {
+      // Employee data
+      const employees = {
+        101: {
+          name: 'Rahul Sharma',
+          id: '101',
+          department: 'HR',
+          designation: 'Manager',
+          email: 'rahul.sharma@company.com',
+          phone: '+91 98765-43210',
+          joinDate: '2020-03-15',
+          salary: '₹75,000',
+          address: 'Mumbai, Maharashtra',
+          education: 'MBA - HR Management',
+          skills: 'Recruitment, Employee Relations, HR Policies',
+          projects: 'Employee Engagement Program, HR Automation',
+          performance: 'Excellent',
+          leaves: '12 days remaining',
+          image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+        },
+        102: {
+          name: 'Anjali Patil',
+          id: '102',
+          department: 'IT',
+          designation: 'Senior Developer',
+          email: 'anjali.patil@company.com',
+          phone: '+91 98765-43211',
+          joinDate: '2019-07-22',
+          salary: '₹85,000',
+          address: 'Pune, Maharashtra',
+          education: 'BE - Computer Science',
+          skills: 'Java, Spring Boot, React, AWS',
+          projects: 'E-commerce Platform, Mobile App Development',
+          performance: 'Outstanding',
+          leaves: '8 days remaining'
+        },
+        103: {
+          name: 'Raj Verma',
+          id: '103',
+          department: 'Finance',
+          designation: 'Accountant',
+          email: 'raj.verma@company.com',
+          phone: '+91 98765-43212',
+          joinDate: '2021-01-10',
+          salary: '₹45,000',
+          address: 'Delhi, NCR',
+          education: 'B.Com - Accounting',
+          skills: 'Tally, Excel, Financial Reporting',
+          projects: 'Annual Budget Planning, Tax Compliance',
+          performance: 'Good',
+          leaves: '15 days remaining'
+        },
+        104: {
+          name: 'Priya Singh',
+          id: '104',
+          department: 'Marketing',
+          designation: 'Marketing Manager',
+          email: 'priya.singh@company.com',
+          phone: '+91 98765-43213',
+          joinDate: '2020-11-05',
+          salary: '₹65,000',
+          address: 'Bangalore, Karnataka',
+          education: 'MBA - Marketing',
+          skills: 'Digital Marketing, Brand Management, Analytics',
+          projects: 'Brand Campaign, Social Media Strategy',
+          performance: 'Excellent',
+          leaves: '10 days remaining'
+        },
+        105: {
+          name: 'Amit Kumar',
+          id: '105',
+          department: 'IT',
+          designation: 'Developer',
+          email: 'amit.kumar@company.com',
+          phone: '+91 98765-43214',
+          joinDate: '2021-06-18',
+          salary: '₹55,000',
+          address: 'Hyderabad, Telangana',
+          education: 'BE - Information Technology',
+          skills: 'Python, Django, JavaScript, SQL',
+          projects: 'CRM System, API Development',
+          performance: 'Good',
+          leaves: '18 days remaining'
+        },
+        106: {
+          name: 'Neha Gupta',
+          id: '106',
+          department: 'Sales',
+          designation: 'Sales Executive',
+          email: 'neha.gupta@company.com',
+          phone: '+91 98765-43215',
+          joinDate: '2022-02-28',
+          salary: '₹35,000',
+          address: 'Chennai, Tamil Nadu',
+          education: 'BBA - Sales & Marketing',
+          skills: 'Customer Relationship, Negotiation, CRM',
+          projects: 'Regional Sales Expansion, Client Acquisition',
+          performance: 'Good',
+          leaves: '22 days remaining'
+        },
+        107: {
+          name: 'Vikram Malhotra',
+          id: '107',
+          department: 'Operations',
+          designation: 'Operations Head',
+          email: 'vikram.malhotra@company.com',
+          phone: '+91 98765-43216',
+          joinDate: '2018-09-12',
+          salary: '₹90,000',
+          address: 'Gurgaon, Haryana',
+          education: 'MBA - Operations Management',
+          skills: 'Process Optimization, Team Management, Six Sigma',
+          projects: 'Process Automation, Quality Improvement',
+          performance: 'Outstanding',
+          leaves: '5 days remaining'
+        },
+        108: {
+          name: 'Sunita Reddy',
+          id: '108',
+          department: 'Finance',
+          designation: 'Financial Analyst',
+          email: 'sunita.reddy@company.com',
+          phone: '+91 98765-43217',
+          joinDate: '2021-04-03',
+          salary: '₹60,000',
+          address: 'Ahmedabad, Gujarat',
+          education: 'CA, MBA - Finance',
+          skills: 'Financial Modeling, Investment Analysis, Risk Management',
+          projects: 'Investment Portfolio Management, Financial Planning',
+          performance: 'Excellent',
+          leaves: '12 days remaining'
+        },
+        109: {
+          name: 'Arjun Mehta',
+          id: '109',
+          department: 'IT',
+          designation: 'System Admin',
+          email: 'arjun.mehta@company.com',
+          phone: '+91 98765-43218',
+          joinDate: '2020-08-20',
+          salary: '₹70,000',
+          address: 'Noida, Uttar Pradesh',
+          education: 'BE - Computer Science',
+          skills: 'Linux, Network Security, Cloud Infrastructure',
+          projects: 'Server Migration, Security Implementation',
+          performance: 'Good',
+          leaves: '14 days remaining'
+        },
+        110: {
+          name: 'Kavya Iyer',
+          id: '110',
+          department: 'HR',
+          designation: 'HR Executive',
+          email: 'kavya.iyer@company.com',
+          phone: '+91 98765-43219',
+          joinDate: '2022-01-15',
+          salary: '₹40,000',
+          address: 'Kochi, Kerala',
+          education: 'MBA - Human Resources',
+          skills: 'Recruitment, Training & Development, Employee Relations',
+          projects: 'Training Program Development, Employee Wellness',
+          performance: 'Good',
+          leaves: '20 days remaining'
+        },
+        111: {
+          name: 'Rohan Desai',
+          id: '111',
+          department: 'Sales',
+          designation: 'Sales Manager',
+          email: 'rohan.desai@company.com',
+          phone: '+91 98765-43220',
+          joinDate: '2019-12-08',
+          salary: '₹80,000',
+          address: 'Mumbai, Maharashtra',
+          education: 'MBA - Sales Management',
+          skills: 'Team Leadership, Strategic Sales, Client Management',
+          projects: 'Sales Strategy Development, Team Building',
+          performance: 'Excellent',
+          leaves: '8 days remaining'
+        },
+        112: {
+          name: 'Meera Joshi',
+          id: '112',
+          department: 'Marketing',
+          designation: 'Content Writer',
+          email: 'meera.joshi@company.com',
+          phone: '+91 98765-43221',
+          joinDate: '2021-09-14',
+          salary: '₹45,000',
+          address: 'Pune, Maharashtra',
+          education: 'MA - English Literature',
+          skills: 'Content Creation, SEO, Social Media Marketing',
+          projects: 'Content Strategy, Brand Messaging',
+          performance: 'Good',
+          leaves: '16 days remaining'
+        },
+        113: {
+          name: 'Aditya Rao',
+          id: '113',
+          department: 'IT',
+          designation: 'QA Engineer',
+          email: 'aditya.rao@company.com',
+          phone: '+91 98765-43222',
+          joinDate: '2022-03-25',
+          salary: '₹50,000',
+          address: 'Bangalore, Karnataka',
+          education: 'BE - Computer Science',
+          skills: 'Manual Testing, Automation Testing, Selenium',
+          projects: 'Test Automation Framework, Quality Assurance',
+          performance: 'Good',
+          leaves: '24 days remaining'
+        },
+        114: {
+          name: 'Pooja Sharma',
+          id: '114',
+          department: 'Finance',
+          designation: 'Accounts Payable',
+          email: 'pooja.sharma@company.com',
+          phone: '+91 98765-43223',
+          joinDate: '2021-11-30',
+          salary: '₹42,000',
+          address: 'Jaipur, Rajasthan',
+          education: 'B.Com - Accounting',
+          skills: 'Accounts Payable, Vendor Management, SAP',
+          projects: 'Vendor Payment System, Expense Management',
+          performance: 'Good',
+          leaves: '19 days remaining'
+        },
+        115: {
+          name: 'Karan Patel',
+          id: '115',
+          department: 'Operations',
+          designation: 'Logistics Coordinator',
+          email: 'karan.patel@company.com',
+          phone: '+91 98765-43224',
+          joinDate: '2020-05-17',
+          salary: '₹48,000',
+          address: 'Surat, Gujarat',
+          education: 'BBA - Supply Chain Management',
+          skills: 'Logistics Management, Inventory Control, SAP',
+          projects: 'Supply Chain Optimization, Warehouse Management',
+          performance: 'Good',
+          leaves: '13 days remaining'
+        }
+      };
+
+      const employee = employees[employeeId];
+      if (!employee) {
+        showNotification('Employee not found!', 'error');
+        return;
+      }
+
+      // Create modal HTML
+      const modalHTML = `
+        <div id="employeeModal" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          z-index: 10000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          animation: fadeIn 0.3s ease;
+        ">
+          <div style="
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideUp 0.4s ease;
+          ">
+            <button onclick="closeEmployeeModal()" style="
+              position: absolute;
+              top: 15px;
+              right: 20px;
+              background: linear-gradient(45deg, #f44336, #d32f2f);
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              font-size: 18px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.3s ease;
+            ">×</button>
+            
+            <div style="text-align: center; margin-bottom: 30px;">
+              <div style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                margin: 0 auto 20px;
+                position: relative;
+                overflow: hidden;
+                animation: profilePulse 3s ease-in-out infinite;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                border: 4px solid rgba(255,255,255,0.3);
+              ">
+                <img src="${employee.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'}" 
+                     alt="${employee.name}" 
+                     style="
+                       width: 100%;
+                       height: 100%;
+                       object-fit: cover;
+                       border-radius: 50%;
+                     "
+                     onerror="this.style.background='linear-gradient(45deg, var(--primary-color), var(--accent-color))'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.fontSize='3em'; this.style.color='white'; this.style.fontWeight='bold'; this.innerHTML='${employee.name.charAt(0)}'; this.style.borderRadius='50%';">
+                <div style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+                  animation: profileShine 2s ease-in-out infinite;
+                  pointer-events: none;
+                "></div>
+                <div style="
+                  position: absolute;
+                  top: -50%;
+                  left: -50%;
+                  width: 200%;
+                  height: 200%;
+                  background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.2), transparent);
+                  animation: profileRotate 4s linear infinite;
+                  pointer-events: none;
+                "></div>
+              </div>
+              <h2 style="
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-size: 2em;
+                margin-bottom: 10px;
+              ">${employee.name}</h2>
+              <p style="color: var(--secondary-color); font-size: 1.2em; margin-bottom: 5px;">${employee.designation}</p>
+              <p style="color: #666; font-size: 1em;">${employee.department} Department</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+              <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+              ">
+                <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px;">
+                  <i class="fas fa-user" style="margin-right: 10px;"></i>Basic Information
+                </h3>
+                <div style="display: grid; gap: 10px;">
+                  <div><strong>Employee ID:</strong> ${employee.id}</div>
+                  <div><strong>Email:</strong> ${employee.email}</div>
+                  <div><strong>Phone:</strong> ${employee.phone}</div>
+                  <div><strong>Join Date:</strong> ${employee.joinDate}</div>
+                  <div><strong>Address:</strong> ${employee.address}</div>
+                </div>
+              </div>
+
+              <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+              ">
+                <h3 style="color: var(--secondary-color); margin-bottom: 15px; border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px;">
+                  <i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>Education & Skills
+                </h3>
+                <div style="display: grid; gap: 10px;">
+                  <div><strong>Education:</strong> ${employee.education}</div>
+                  <div><strong>Skills:</strong> ${employee.skills}</div>
+                  <div><strong>Current Projects:</strong> ${employee.projects}</div>
+                </div>
+              </div>
+
+              <div style="
+                background: rgba(255,255,255,0.9);
+                padding: 20px;
+                border-radius: 15px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+              ">
+                <h3 style="color: var(--accent-color); margin-bottom: 15px; border-bottom: 2px solid var(--accent-color); padding-bottom: 5px;">
+                  <i class="fas fa-chart-line" style="margin-right: 10px;"></i>Performance & Benefits
+                </h3>
+                <div style="display: grid; gap: 10px;">
+                  <div><strong>Salary:</strong> ${employee.salary}</div>
+                  <div><strong>Performance Rating:</strong> 
+                    <span style="
+                      color: ${employee.performance === 'Outstanding' ? '#4CAF50' : employee.performance === 'Excellent' ? '#2196F3' : '#FF9800'};
+                      font-weight: bold;
+                    ">${employee.performance}</span>
+                  </div>
+                  <div><strong>Leave Balance:</strong> ${employee.leaves}</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+              <button onclick="closeEmployeeModal()" style="
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 25px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-right: 10px;
+              ">Close</button>
+              <button onclick="editEmployee(${employeeId})" style="
+                background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 25px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+              ">Edit Profile</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Add modal to body
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      
+      // Add click outside to close
+      document.getElementById('employeeModal').addEventListener('click', function(e) {
+        if (e.target.id === 'employeeModal') {
+          closeEmployeeModal();
+        }
+      });
+
+      showNotification(`Viewing profile of ${employee.name}`, 'success');
+    }
+
+    function closeEmployeeModal() {
+      const modal = document.getElementById('employeeModal');
+      if (modal) {
+        modal.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+          modal.remove();
+        }, 300);
+      }
+    }
+
+    function editEmployee(employeeId) {
+      // Employee data (same as in showEmployeeProfile)
+      const employees = {
+        101: {
+          name: 'Rahul Sharma',
+          id: '101',
+          department: 'HR',
+          designation: 'Manager',
+          email: 'rahul.sharma@company.com',
+          phone: '+91 98765-43210',
+          joinDate: '2020-03-15',
+          salary: '₹75,000',
+          address: 'Mumbai, Maharashtra',
+          education: 'MBA - HR Management',
+          skills: 'Recruitment, Employee Relations, HR Policies',
+          projects: 'Employee Engagement Program, HR Automation',
+          performance: 'Excellent',
+          leaves: '12 days remaining'
+        },
+        102: {
+          name: 'Anjali Patil',
+          id: '102',
+          department: 'IT',
+          designation: 'Senior Developer',
+          email: 'anjali.patil@company.com',
+          phone: '+91 98765-43211',
+          joinDate: '2019-07-22',
+          salary: '₹85,000',
+          address: 'Pune, Maharashtra',
+          education: 'BE - Computer Science',
+          skills: 'Java, Spring Boot, React, AWS',
+          projects: 'E-commerce Platform, Mobile App Development',
+          performance: 'Outstanding',
+          leaves: '8 days remaining'
+        },
+        103: {
+          name: 'Raj Verma',
+          id: '103',
+          department: 'Finance',
+          designation: 'Accountant',
+          email: 'raj.verma@company.com',
+          phone: '+91 98765-43212',
+          joinDate: '2021-01-10',
+          salary: '₹45,000',
+          address: 'Delhi, NCR',
+          education: 'B.Com - Accounting',
+          skills: 'Tally, Excel, Financial Reporting',
+          projects: 'Annual Budget Planning, Tax Compliance',
+          performance: 'Good',
+          leaves: '15 days remaining'
+        },
+        104: {
+          name: 'Priya Singh',
+          id: '104',
+          department: 'Marketing',
+          designation: 'Marketing Manager',
+          email: 'priya.singh@company.com',
+          phone: '+91 98765-43213',
+          joinDate: '2020-11-05',
+          salary: '₹65,000',
+          address: 'Bangalore, Karnataka',
+          education: 'MBA - Marketing',
+          skills: 'Digital Marketing, Brand Management, Analytics',
+          projects: 'Brand Campaign, Social Media Strategy',
+          performance: 'Excellent',
+          leaves: '10 days remaining'
+        },
+        105: {
+          name: 'Amit Kumar',
+          id: '105',
+          department: 'IT',
+          designation: 'Developer',
+          email: 'amit.kumar@company.com',
+          phone: '+91 98765-43214',
+          joinDate: '2021-06-18',
+          salary: '₹55,000',
+          address: 'Hyderabad, Telangana',
+          education: 'BE - Information Technology',
+          skills: 'Python, Django, JavaScript, SQL',
+          projects: 'CRM System, API Development',
+          performance: 'Good',
+          leaves: '18 days remaining'
+        },
+        106: {
+          name: 'Neha Gupta',
+          id: '106',
+          department: 'Sales',
+          designation: 'Sales Executive',
+          email: 'neha.gupta@company.com',
+          phone: '+91 98765-43215',
+          joinDate: '2022-02-28',
+          salary: '₹35,000',
+          address: 'Chennai, Tamil Nadu',
+          education: 'BBA - Sales & Marketing',
+          skills: 'Customer Relationship, Negotiation, CRM',
+          projects: 'Regional Sales Expansion, Client Acquisition',
+          performance: 'Good',
+          leaves: '22 days remaining'
+        },
+        107: {
+          name: 'Vikram Malhotra',
+          id: '107',
+          department: 'Operations',
+          designation: 'Operations Head',
+          email: 'vikram.malhotra@company.com',
+          phone: '+91 98765-43216',
+          joinDate: '2018-09-12',
+          salary: '₹90,000',
+          address: 'Gurgaon, Haryana',
+          education: 'MBA - Operations Management',
+          skills: 'Process Optimization, Team Management, Six Sigma',
+          projects: 'Process Automation, Quality Improvement',
+          performance: 'Outstanding',
+          leaves: '5 days remaining'
+        },
+        108: {
+          name: 'Sunita Reddy',
+          id: '108',
+          department: 'Finance',
+          designation: 'Financial Analyst',
+          email: 'sunita.reddy@company.com',
+          phone: '+91 98765-43217',
+          joinDate: '2021-04-03',
+          salary: '₹60,000',
+          address: 'Ahmedabad, Gujarat',
+          education: 'CA, MBA - Finance',
+          skills: 'Financial Modeling, Investment Analysis, Risk Management',
+          projects: 'Investment Portfolio Management, Financial Planning',
+          performance: 'Excellent',
+          leaves: '12 days remaining'
+        },
+        109: {
+          name: 'Arjun Mehta',
+          id: '109',
+          department: 'IT',
+          designation: 'System Admin',
+          email: 'arjun.mehta@company.com',
+          phone: '+91 98765-43218',
+          joinDate: '2020-08-20',
+          salary: '₹70,000',
+          address: 'Noida, Uttar Pradesh',
+          education: 'BE - Computer Science',
+          skills: 'Linux, Network Security, Cloud Infrastructure',
+          projects: 'Server Migration, Security Implementation',
+          performance: 'Good',
+          leaves: '14 days remaining'
+        },
+        110: {
+          name: 'Kavya Iyer',
+          id: '110',
+          department: 'HR',
+          designation: 'HR Executive',
+          email: 'kavya.iyer@company.com',
+          phone: '+91 98765-43219',
+          joinDate: '2022-01-15',
+          salary: '₹40,000',
+          address: 'Kochi, Kerala',
+          education: 'MBA - Human Resources',
+          skills: 'Recruitment, Training & Development, Employee Relations',
+          projects: 'Training Program Development, Employee Wellness',
+          performance: 'Good',
+          leaves: '20 days remaining'
+        },
+        111: {
+          name: 'Rohan Desai',
+          id: '111',
+          department: 'Sales',
+          designation: 'Sales Manager',
+          email: 'rohan.desai@company.com',
+          phone: '+91 98765-43220',
+          joinDate: '2019-12-08',
+          salary: '₹80,000',
+          address: 'Mumbai, Maharashtra',
+          education: 'MBA - Sales Management',
+          skills: 'Team Leadership, Strategic Sales, Client Management',
+          projects: 'Sales Strategy Development, Team Building',
+          performance: 'Excellent',
+          leaves: '8 days remaining'
+        },
+        112: {
+          name: 'Meera Joshi',
+          id: '112',
+          department: 'Marketing',
+          designation: 'Content Writer',
+          email: 'meera.joshi@company.com',
+          phone: '+91 98765-43221',
+          joinDate: '2021-09-14',
+          salary: '₹45,000',
+          address: 'Pune, Maharashtra',
+          education: 'MA - English Literature',
+          skills: 'Content Creation, SEO, Social Media Marketing',
+          projects: 'Content Strategy, Brand Messaging',
+          performance: 'Good',
+          leaves: '16 days remaining'
+        },
+        113: {
+          name: 'Aditya Rao',
+          id: '113',
+          department: 'IT',
+          designation: 'QA Engineer',
+          email: 'aditya.rao@company.com',
+          phone: '+91 98765-43222',
+          joinDate: '2022-03-25',
+          salary: '₹50,000',
+          address: 'Bangalore, Karnataka',
+          education: 'BE - Computer Science',
+          skills: 'Manual Testing, Automation Testing, Selenium',
+          projects: 'Test Automation Framework, Quality Assurance',
+          performance: 'Good',
+          leaves: '24 days remaining'
+        },
+        114: {
+          name: 'Pooja Sharma',
+          id: '114',
+          department: 'Finance',
+          designation: 'Accounts Payable',
+          email: 'pooja.sharma@company.com',
+          phone: '+91 98765-43223',
+          joinDate: '2021-11-30',
+          salary: '₹42,000',
+          address: 'Jaipur, Rajasthan',
+          education: 'B.Com - Accounting',
+          skills: 'Accounts Payable, Vendor Management, SAP',
+          projects: 'Vendor Payment System, Expense Management',
+          performance: 'Good',
+          leaves: '19 days remaining'
+        },
+        115: {
+          name: 'Karan Patel',
+          id: '115',
+          department: 'Operations',
+          designation: 'Logistics Coordinator',
+          email: 'karan.patel@company.com',
+          phone: '+91 98765-43224',
+          joinDate: '2020-05-17',
+          salary: '₹48,000',
+          address: 'Surat, Gujarat',
+          education: 'BBA - Supply Chain Management',
+          skills: 'Logistics Management, Inventory Control, SAP',
+          projects: 'Supply Chain Optimization, Warehouse Management',
+          performance: 'Good',
+          leaves: '13 days remaining'
+        }
+      };
+
+      const employee = employees[employeeId];
+      if (!employee) {
+        showNotification('Employee not found!', 'error');
+        return;
+      }
+
+      // Close the profile modal first
+      closeEmployeeModal();
+
+      // Create edit modal HTML
+      const editModalHTML = `
+        <div id="editEmployeeModal" style="
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.8);
+          z-index: 10000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          animation: fadeIn 0.3s ease;
+        ">
+          <div style="
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideUp 0.4s ease;
+          ">
+            <button onclick="closeEditModal()" style="
+              position: absolute;
+              top: 15px;
+              right: 20px;
+              background: linear-gradient(45deg, #f44336, #d32f2f);
+              color: white;
+              border: none;
+              border-radius: 50%;
+              width: 40px;
+              height: 40px;
+              font-size: 18px;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: all 0.3s ease;
+            ">×</button>
+            
+            <h2 style="
+              text-align: center;
+              background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              font-size: 2em;
+              margin-bottom: 30px;
+            ">Edit Employee Profile</h2>
+
+            <form id="editEmployeeForm" onsubmit="saveEmployeeChanges(event, ${employeeId})">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="
+                  background: rgba(255,255,255,0.9);
+                  padding: 20px;
+                  border-radius: 15px;
+                  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                ">
+                  <h3 style="color: var(--primary-color); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px;">
+                    <i class="fas fa-user" style="margin-right: 10px;"></i>Basic Information
+                  </h3>
+                  <div style="display: grid; gap: 15px;">
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Employee ID</label>
+                      <input type="text" id="edit_id" value="${employee.id}" readonly style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        background: #f5f5f5;
+                        color: #666;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Full Name</label>
+                      <input type="text" id="edit_name" value="${employee.name}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Email</label>
+                      <input type="email" id="edit_email" value="${employee.email}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Phone</label>
+                      <input type="tel" id="edit_phone" value="${employee.phone}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Join Date</label>
+                      <input type="date" id="edit_joinDate" value="${employee.joinDate}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Address</label>
+                      <input type="text" id="edit_address" value="${employee.address}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                  </div>
+                </div>
+
+                <div style="
+                  background: rgba(255,255,255,0.9);
+                  padding: 20px;
+                  border-radius: 15px;
+                  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                ">
+                  <h3 style="color: var(--secondary-color); margin-bottom: 15px; border-bottom: 2px solid var(--secondary-color); padding-bottom: 5px;">
+                    <i class="fas fa-briefcase" style="margin-right: 10px;"></i>Work Information
+                  </h3>
+                  <div style="display: grid; gap: 15px;">
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Department</label>
+                      <select id="edit_department" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                        <option value="HR" ${employee.department === 'HR' ? 'selected' : ''}>HR</option>
+                        <option value="IT" ${employee.department === 'IT' ? 'selected' : ''}>IT</option>
+                        <option value="Finance" ${employee.department === 'Finance' ? 'selected' : ''}>Finance</option>
+                        <option value="Marketing" ${employee.department === 'Marketing' ? 'selected' : ''}>Marketing</option>
+                        <option value="Sales" ${employee.department === 'Sales' ? 'selected' : ''}>Sales</option>
+                        <option value="Operations" ${employee.department === 'Operations' ? 'selected' : ''}>Operations</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Designation</label>
+                      <input type="text" id="edit_designation" value="${employee.designation}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Salary</label>
+                      <input type="text" id="edit_salary" value="${employee.salary}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Performance Rating</label>
+                      <select id="edit_performance" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                        <option value="Outstanding" ${employee.performance === 'Outstanding' ? 'selected' : ''}>Outstanding</option>
+                        <option value="Excellent" ${employee.performance === 'Excellent' ? 'selected' : ''}>Excellent</option>
+                        <option value="Good" ${employee.performance === 'Good' ? 'selected' : ''}>Good</option>
+                        <option value="Average" ${employee.performance === 'Average' ? 'selected' : ''}>Average</option>
+                        <option value="Poor" ${employee.performance === 'Poor' ? 'selected' : ''}>Poor</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Leave Balance</label>
+                      <input type="text" id="edit_leaves" value="${employee.leaves}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                  </div>
+                </div>
+
+                <div style="
+                  background: rgba(255,255,255,0.9);
+                  padding: 20px;
+                  border-radius: 15px;
+                  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                ">
+                  <h3 style="color: var(--accent-color); margin-bottom: 15px; border-bottom: 2px solid var(--accent-color); padding-bottom: 5px;">
+                    <i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>Education & Skills
+                  </h3>
+                  <div style="display: grid; gap: 15px;">
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Education</label>
+                      <input type="text" id="edit_education" value="${employee.education}" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                      ">
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Skills</label>
+                      <textarea id="edit_skills" rows="3" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                        resize: vertical;
+                      ">${employee.skills}</textarea>
+                    </div>
+                    <div>
+                      <label style="display: block; margin-bottom: 5px; font-weight: 600; color: var(--text-color);">Current Projects</label>
+                      <textarea id="edit_projects" rows="3" required style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 2px solid #ddd;
+                        border-radius: 8px;
+                        transition: all 0.3s ease;
+                        resize: vertical;
+                      ">${employee.projects}</textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="text-align: center; margin-top: 30px; display: flex; justify-content: center; gap: 15px;">
+                <button type="button" onclick="closeEditModal()" style="
+                  background: linear-gradient(45deg, #666, #999);
+                  color: white;
+                  border: none;
+                  padding: 12px 30px;
+                  border-radius: 25px;
+                  font-size: 16px;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                ">Cancel</button>
+                <button type="submit" style="
+                  background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+                  color: white;
+                  border: none;
+                  padding: 12px 30px;
+                  border-radius: 25px;
+                  font-size: 16px;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                ">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+
+      // Add modal to body
+      document.body.insertAdjacentHTML('beforeend', editModalHTML);
+      
+      // Add click outside to close
+      document.getElementById('editEmployeeModal').addEventListener('click', function(e) {
+        if (e.target.id === 'editEmployeeModal') {
+          closeEditModal();
+        }
+      });
+
+      // Add focus effects to inputs
+      const inputs = document.querySelectorAll('#editEmployeeModal input, #editEmployeeModal select, #editEmployeeModal textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.style.borderColor = 'var(--primary-color)';
+          this.style.boxShadow = '0 0 10px rgba(102, 126, 234, 0.3)';
+        });
+        input.addEventListener('blur', function() {
+          this.style.borderColor = '#ddd';
+          this.style.boxShadow = 'none';
+        });
+      });
+
+      showNotification(`Editing profile of ${employee.name}`, 'success');
+    }
+
+    function closeEditModal() {
+      const modal = document.getElementById('editEmployeeModal');
+      if (modal) {
+        modal.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+          modal.remove();
+        }, 300);
+      }
+    }
+
+    function saveEmployeeChanges(event, employeeId) {
+      event.preventDefault();
+      
+      // Get form values
+      const formData = {
+        id: document.getElementById('edit_id').value,
+        name: document.getElementById('edit_name').value,
+        email: document.getElementById('edit_email').value,
+        phone: document.getElementById('edit_phone').value,
+        joinDate: document.getElementById('edit_joinDate').value,
+        address: document.getElementById('edit_address').value,
+        department: document.getElementById('edit_department').value,
+        designation: document.getElementById('edit_designation').value,
+        salary: document.getElementById('edit_salary').value,
+        performance: document.getElementById('edit_performance').value,
+        leaves: document.getElementById('edit_leaves').value,
+        education: document.getElementById('edit_education').value,
+        skills: document.getElementById('edit_skills').value,
+        projects: document.getElementById('edit_projects').value
+      };
+
+      // Validation
+      let errors = [];
+      
+      if (!formData.name.trim()) errors.push('Name is required');
+      if (!formData.email.trim()) errors.push('Email is required');
+      if (!formData.phone.trim()) errors.push('Phone is required');
+      if (!formData.joinDate) errors.push('Join Date is required');
+      if (!formData.address.trim()) errors.push('Address is required');
+      if (!formData.department) errors.push('Department is required');
+      if (!formData.designation.trim()) errors.push('Designation is required');
+      if (!formData.salary.trim()) errors.push('Salary is required');
+      if (!formData.education.trim()) errors.push('Education is required');
+      if (!formData.skills.trim()) errors.push('Skills are required');
+      if (!formData.projects.trim()) errors.push('Projects are required');
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (formData.email && !emailRegex.test(formData.email)) {
+        errors.push('Please enter a valid email address');
+      }
+
+      if (errors.length > 0) {
+        showNotification('Please fix the following errors: ' + errors.join(', '), 'error');
+        return;
+      }
+
+      // Simulate saving (in real app, this would be an API call)
+      showNotification('Saving changes...', 'info');
+      
+      setTimeout(() => {
+        // Update the employee data (in a real app, this would update the database)
+        showNotification('Employee profile updated successfully!', 'success');
+        
+        // Close the edit modal
+        closeEditModal();
+        
+        // Optionally, you could refresh the employee list or update the profile view
+        // For now, we'll just show a success message
+      }, 1500);
+    }
+
+
+  </script>
+</body>
+</html>
